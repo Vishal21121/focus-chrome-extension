@@ -13,29 +13,7 @@ function App() {
     setDate(e.target.value);
   };
 
-  const handleAddTask = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/api/tasks", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ task, date }),
-      });
-
-      if (response.ok) {
-        const newTask = await response.json();
-        setTaskList([...taskList, newTask]);
-        console.log("Task added successfully!");
-      } else {
-        console.error("Error adding task:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error adding task:", error);
-    }
-  };
-
-  const currentDate = new Date().toISOString().split("T")[0];
+  const [fetchTasksFlag, setFetchTasksFlag] = useState(true);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -43,7 +21,7 @@ function App() {
         const response = await fetch("http://localhost:5000/api/tasks");
         if (response.ok) {
           const data = await response.json();
-          // Convert API date format to 'YYYY-MM-DD'
+          console.log("Fetched tasks:", data);
           const formattedTasks = data.map((taskItem) => ({
             ...taskItem,
             date: taskItem.date.split("T")[0],
@@ -56,9 +34,38 @@ function App() {
         console.error("Error fetching tasks:", error);
       }
     };
+  
+    if (fetchTasksFlag) {
+      fetchTasks();
+      setFetchTasksFlag(false);
+    }
+  
+  }, [fetchTasksFlag]);
+  
+  const handleAddTask = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/tasks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ task, date }),
+      });
+  
+      if (response.ok) {
+        const newTask = await response.json();
+        setTaskList([...taskList, newTask]);
+        setFetchTasksFlag(true); // Trigger a fetch after adding a new task
+        console.log("Task added successfully!");
+      } else {
+        console.error("Error adding task:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error adding task:", error);
+    }
+  };
 
-    fetchTasks();
-  }, []);
+  const currentDate = new Date().toISOString().split("T")[0];
 
   // Filter tasks for today
   const todaysTasks = taskList.filter(
