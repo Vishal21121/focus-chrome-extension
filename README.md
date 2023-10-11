@@ -93,10 +93,7 @@ If you have any questions, or suggestions, or just want to say hi, feel free to 
 ## Merge Your First PR!
 We're not getting physical swags this time but let's not stop us from learning and growing
 
-![1_e747wX6KY_OgMFeBlhGJow](https://github.com/Sohini3018/simple-todo-list-UI/assets/113935740/306ad88d-2089-4447-8efe-dc97d81ebf75)
-
 Once you've submitted your pull request, our team will review it and provide feedback if necessary. After that, you'll experience the joy of seeing your contribution merged into the project!
 
 Happy Hacking! 🚀
-```
 
