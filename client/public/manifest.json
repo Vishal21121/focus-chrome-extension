@@ -1,0 +1,13 @@
+{
+  "manifest_version":3,
+  "name": "Focus",
+  "description": "",
+  "version": "1.0.0",
+  "action": {
+    "default_popup":"index.html",
+    "default_title":"open"
+  },
+  "permissions":[
+    "scripting"
+  ]
+}
