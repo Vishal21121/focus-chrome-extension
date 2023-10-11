@@ -15,33 +15,29 @@ function App() {
 
   const [fetchTasksFlag, setFetchTasksFlag] = useState(true);
 
-  useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/api/tasks");
-        if (response.ok) {
-          const data = await response.json();
-          console.log("Fetched tasks:", data);
-          const formattedTasks = data.map((taskItem) => ({
-            ...taskItem,
-            date: taskItem.date.split("T")[0],
-          }));
-          setTaskList(formattedTasks);
-        } else {
-          console.error("Error fetching tasks:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error fetching tasks:", error);
+  const fetchTasks = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/tasks");
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Fetched tasks:", data);
+        const formattedTasks = data.map((taskItem) => ({
+          ...taskItem,
+          date: taskItem.date.split("T")[0],
+        }));
+        setTaskList(formattedTasks);
+      } else {
+        console.error("Error fetching tasks:", response.statusText);
       }
-    };
-  
-    if (fetchTasksFlag) {
-      fetchTasks();
-      setFetchTasksFlag(false);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
     }
-  
-  }, [fetchTasksFlag]);
-  
+  };
+
+  useEffect(() => {
+    fetchTasks()
+  }, []);
+
   const handleAddTask = async () => {
     try {
       const response = await fetch("http://localhost:5000/api/tasks", {
@@ -51,11 +47,11 @@ function App() {
         },
         body: JSON.stringify({ task, date }),
       });
-  
+
       if (response.ok) {
-        const newTask = await response.json();
-        setTaskList([...taskList, newTask]);
-        setFetchTasksFlag(true); // Trigger a fetch after adding a new task
+        fetchTasks()
+        setTask("")
+        setDate("")
         console.log("Task added successfully!");
       } else {
         console.error("Error adding task:", response.statusText);
