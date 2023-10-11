@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import "./App.css";
 
 function App() {
   const [task, setTask] = useState("");
@@ -67,26 +66,38 @@ function App() {
   );
 
   return (
-    <div>
+    <div className="container p-4 max-w-[400px] min-h-[600px]">
       <div>
-        <h1>Add Tasks</h1>
+        <h1 className="text-2xl font-bold mb-4">Add Tasks</h1>
         <input
           type="text"
           placeholder="Enter Task Name"
           value={task}
           onChange={handleTaskInput}
+          className="border p-2 mb-2 w-full"
         />
         <input
           type="date"
           placeholder="Enter Due Date"
           value={date}
           onChange={handleDateInput}
+          className="border p-2 mb-2 w-full"
         />
-        <button onClick={handleAddTask}>Add</button>
-        <h1>Today's Tasks</h1>
+        <button
+          onClick={handleAddTask}
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          Add
+        </button>
+        <h1 className="text-2xl font-bold mt-4 mb-2">Today's Tasks</h1>
         <ul>
           {todaysTasks.map((taskItem, index) => (
-            <li key={index}>{taskItem.task}</li>
+            <li
+              key={index}
+              className="border p-2 mb-2 rounded bg-gray-100"
+            >
+              {taskItem.task}
+            </li>
           ))}
         </ul>
       </div>
